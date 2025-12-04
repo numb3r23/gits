@@ -16,7 +16,11 @@
 #include <iostream>
 #include <vulkan/vulkan.h>
 
+#ifdef _WIN32
 #include <windows.h>
+#else
+
+#endif
 
 #include "fileActions.h"
 #include "imGuiHelper.h"
@@ -26,7 +30,8 @@
 
 namespace gits::gui {
 struct Settings {
-  static constexpr const wchar_t* WINDOW_TITLE = L"GITS Launcher";
+  static constexpr const char* WINDOW_TITLE = "GITS Launcher";
+  static constexpr const wchar_t* WINDOW_TITLE_W = L"GITS Launcher";
 
   static constexpr auto CLEAR_COLOR = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -41,8 +46,11 @@ struct Settings {
 
 class GUIController {
 public:
+#ifdef _WIN32
   GUIController(HWND hwnd);
-
+#else
+  GUIController();
+#endif
   void SetupGui();
   void DrawGui();
   void TeardownGui();
@@ -54,7 +62,9 @@ private:
   void RenderUI();
 
 private:
+#ifdef _WIN32
   HWND m_Handle;
+#endif
   ImVec2 m_WindowSize;
   bool m_CleanUpAfterRecording;
   Context m_Context;

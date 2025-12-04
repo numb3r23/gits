@@ -85,3 +85,14 @@ endif()
 
 target_link_libraries(imgui_common PRIVATE yamlcpp log)
 add_dependencies(imgui_common generate_font_header config_codegen)
+
+list(APPEND IMGUI_ADDONS_SOURCE
+  ${IMGUI_COLOR_TEXT_EDIT_DIR}/TextEditor.cpp
+  ${IMGUI_COLOR_TEXT_EDIT_DIR}/TextEditor.h
+
+  ${IMGUI_FILE_DIALOG_DIR}/ImGuiFileDialog.cpp
+  ${IMGUI_FILE_DIALOG_DIR}/ImGuiFileDialog.h
+  ${IMGUI_FILE_DIALOG_DIR}/ImGuiFileDialogConfig.h
+)
+add_library(imgui_addons STATIC ${IMGUI_ADDONS_SOURCE})
+target_link_libraries(imgui_addons PRIVATE imgui_common)

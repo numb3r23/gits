@@ -11,7 +11,6 @@
 #include <vector>
 #include <string>
 #include <filesystem>
-#include <plog/Log.h>
 #include <thread>
 
 #ifdef _WIN32
@@ -22,6 +21,8 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #endif
+
+#include "log.h"
 
 namespace fs = std::filesystem;
 

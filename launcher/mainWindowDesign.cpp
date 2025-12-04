@@ -21,12 +21,12 @@
 #include "imgui.h"
 #include "ImGuiFileDialog.h"
 
-#include "log.h"
 #include "imGuiHelper.h"
 #include "context.h"
 #include "launcherConfig.h"
 #include "buttonGroup.h"
 #include "resource.h"
+#include "log.h"
 
 /**
  * This file contains the design definition for the main window of the GITS Launcher GUI.
@@ -614,9 +614,9 @@ void GUIController::SetupGui() {
   m_Context.ConfigPath = m_LauncherConfig.ConfigPath;
   m_Context.CustomArguments = m_LauncherConfig.CustomArguments;
 
-  PLOG_INFO << "Attempting to restore window size and position from last session: "
-            << ImGuiHelper::ToStr(m_LauncherConfig.WindowPos) << "@"
-            << ImGuiHelper::ToStr(m_LauncherConfig.WindowSize);
+  LOG_INFO << "Attempting to restore window size and position from last session: "
+           << ImGuiHelper::ToStr(m_LauncherConfig.WindowPos) << "@"
+           << ImGuiHelper::ToStr(m_LauncherConfig.WindowSize);
 
   ImGuiHelper::UpdateUIScaling(2.0f);
   // Load style
@@ -654,7 +654,10 @@ void GUIController::SetupGui() {
       TextEditorWidget::Config{.ShowToolbar = false, .ScrollToBottom = true});
 
   m_Context.LogAppender = std::make_unique<TextEditorAppender>(m_Context.LogEditor.get());
+  // TODO_SAS: merde!
+  #ifdef _WIN32
   plog::get()->addAppender(m_Context.LogAppender.get());
+  #endif
 
   m_Context.BtnsSideBar = new ImGuiHelper::ButtonGroup(Labels::SIDE_BAR(), false, true,
                                                        ImGuiHelper::ButtonGroupStyle::Tabs);

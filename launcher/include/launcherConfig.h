@@ -70,7 +70,7 @@ struct LauncherConfig {
       GITSPlayerPath = "";
     }
 
-    ConfigPath = basePath / "Player" / "gits_config.yml";
+    ConfigPath = basePath / std::string("Player") / "gits_config.yml";
     if (!std::filesystem::exists(ConfigPath)) {
       ConfigPath = "";
     }
@@ -102,7 +102,7 @@ struct LauncherConfig {
 #else
     char* homeDir = getenv("HOME");
     if (homeDir) {
-      home = std::string(homeDir) / ".config" / appName;
+      home = std::filesystem::path(homeDir) / std::filesystem::path(".config") / appName;
     }
 #endif
 

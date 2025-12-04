@@ -17,14 +17,16 @@
 #include <iostream>
 #include <yaml-cpp/yaml.h>
 
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "fileActions.h"
 #include "imGuiHelper.h"
 #include "buttonGroup.h"
 #include "textEditorWidget.h"
+#include "log.h"
 
-// Add plog appender includes
 #include <plog/Appenders/IAppender.h>
 #include <plog/Record.h>
 #include <plog/Util.h>
@@ -144,7 +146,11 @@ public:
     }
 
     plog::util::nstring str = plog::TxtFormatter::format(record);
+    #ifdef _WIN32
     std::string logLine = plog::util::toNarrow(str, 0);
+    #else
+    std::string logLine = str;
+    #endif
     if (!logLine.empty() && logLine.back() == '\n') {
       logLine.pop_back();
     }
